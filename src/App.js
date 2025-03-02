@@ -1290,6 +1290,168 @@ const VeganCookieApp = () => {
                     </div>
                   </div>
                 </div>
+                
+                {/* レシピまとめ - 追加セクション */}
+                <div className="mt-8">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4">レシピまとめ</h2>
+                  <div className="bg-white p-6 rounded-lg shadow-sm border border-gray-200">
+                    <h3 className="text-xl font-medium text-emerald-700 mb-2">ヨガ実践者のためのヴィーガンクッキー</h3>
+                    <div className="mb-4">
+                      <div className="text-gray-700 mb-3">
+                        {nutrition && (
+                          <>
+                            このクッキーは、ヨガの強度の高いプラクティスをサポートするために
+                            特別に設計された栄養バランスの良いレシピです。植物性の材料のみを使用し、
+                            アミノ酸スコア{Math.round(nutrition.aminoAcidScore.totalScore)}%を実現。
+                            タンパク質{nutrition.protein}g（PFC比 P:{nutrition.pfcRatio.protein}% / F:{nutrition.pfcRatio.fat}% / C:{nutrition.pfcRatio.carbs}%）で
+                            体をサポートし、GI値{nutrition.gi}で安定したエネルギー補給が可能です。
+                            <br /><br />
+                            
+                            {/* 味と栄養の特徴を説明 */}
+                            <span className="font-medium">味と栄養の特徴：</span><br />
+                            {ingredients.some(ing => ['oatmeal', 'oatmeal_flour'].includes(ing.id)) && 
+                              '食物繊維豊富なオートミールの優しい食感と、'}
+                            {ingredients.some(ing => ['almond', 'cashew', 'walnut'].includes(ing.id)) && 
+                              '香ばしいナッツの風味、'}
+                            {ingredients.some(ing => ['cinnamon', 'cardamom'].includes(ing.id)) && 
+                              'シナモンとカルダモンの芳醇なスパイスの香り、'}
+                            {ingredients.some(ing => ['ginger'].includes(ing.id)) && 
+                              'ジンジャーのピリッとした刺激、'}
+                            {ingredients.some(ing => ['cocoa'].includes(ing.id)) && 
+                              '深みのあるココアの風味、'}
+                            {ingredients.some(ing => ['kinako'].includes(ing.id)) && 
+                              'きな粉のまろやかな大豆の香り、'}
+                            {ingredients.some(ing => ['soy_meat'].includes(ing.id)) && 
+                              '高タンパク質の大豆ミートが筋肉の回復をサポート、'}
+                            {ingredients.some(ing => ['chia_seed', 'quinoa'].includes(ing.id)) && 
+                              'チアシード・キヌアの良質な脂肪と必須ミネラル、'}
+                            {ingredients.some(ing => ['date_syrup', 'dates', 'maple_syrup'].includes(ing.id)) && 
+                              '自然な甘みで血糖値の急上昇を抑える効果、'}
+                            {ingredients.some(ing => ['coconut_oil'].includes(ing.id)) && 
+                              'ココナッツオイルの中鎖脂肪酸による持続的なエネルギー供給、'}
+                            
+                            が特徴のこのクッキーは、ヨガ後の回復だけでなく、忙しい日常の栄養補給にも最適。プラクティスのエネルギー源として、
+                            または朝食・間食として、身体を内側から整える栄養満点のヴィーガンクッキーです。
+                          </>
+                        )}
+                      </div>
+                      
+                      <div className="font-medium mb-1">材料：</div>
+                      <div className="text-gray-700 mb-3">
+                        {ingredients.map((ing, i) => (
+                          <span key={ing.id}>
+                            {ing.name} {ing.amount}g
+                            {i < ingredients.length - 1 ? '、' : ''}
+                          </span>
+                        ))}
+                      </div>
+                      
+                      <div className="font-medium mb-1">作り方：</div>
+                      <div className="text-gray-700 mb-3">
+                        1. 全ての材料をボウルに入れてよく混ぜ合わせます。<br />
+                        2. 生地を8等分にして平たく形を整えます。<br />
+                        3. 160℃に予熱したオーブンで15〜18分焼きます。<br />
+                        4. 焼きあがったら完全に冷ましてからお召し上がりください。
+                      </div>
+                      
+                      <div className="bg-gray-50 p-3 rounded-md">
+                        <div className="font-medium">栄養情報（1枚あたり）：</div>
+                        <div>重量: {nutrition.perCookie.weight}g / カロリー: {nutrition.perCookie.calories}kcal / タンパク質: {nutrition.perCookie.protein}g</div>
+                        <div>アミノ酸スコア: {Math.round(nutrition.aminoAcidScore.totalScore)}% / GI値: {nutrition.gi} / 原価: ¥{nutrition.perCookie.price}</div>
+                      </div>
+                    </div>
+                    
+                    <button 
+                      className="w-full bg-emerald-600 text-white py-2 rounded-md hover:bg-emerald-700"
+                      onClick={() => {
+                        // クリップボードにコピーする機能
+                        const text = `
+ヨガ実践者のためのヴィーガンクッキー
+
+【材料】（8枚分）
+${ingredients.map(ing => `・${ing.name} ${ing.amount}g`).join('\n')}
+
+【作り方】
+1. 全ての材料をボウルに入れてよく混ぜ合わせます。
+2. 生地を8等分にして平たく形を整えます。
+3. 160℃に予熱したオーブンで15〜18分焼きます。
+4. 焼きあがったら完全に冷ましてからお召し上がりください。
+
+【栄養情報】
+・レシピ全体: ${nutrition.totalWeight}g / ${nutrition.calories}kcal / タンパク質${nutrition.protein}g / 原価¥${nutrition.price}
+・1枚あたり: ${nutrition.perCookie.weight}g / ${nutrition.perCookie.calories}kcal / タンパク質${nutrition.perCookie.protein}g / 原価¥${nutrition.perCookie.price}
+・PFC比率: P:${nutrition.pfcRatio.protein}% / F:${nutrition.pfcRatio.fat}% / C:${nutrition.pfcRatio.carbs}%
+・GI値: ${nutrition.gi}
+・アミノ酸スコア: ${Math.round(nutrition.aminoAcidScore.totalScore)}%
+                        `;
+                        navigator.clipboard.writeText(text);
+                        alert('レシピをクリップボードにコピーしました！');
+                      }}
+                    >
+                      レシピをコピー
+                    </button>
+                  </div>
+                </div>
+                
+                {/* 詳細栄養情報テーブル - 追加セクション */}
+                <div className="mt-8">
+                  <h2 className="text-xl font-semibold text-gray-800 mb-4">詳細栄養情報</h2>
+                  <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 overflow-x-auto">
+                    <table className="min-w-full divide-y divide-gray-200">
+                      <thead>
+                        <tr>
+                          <th className="px-4 py-2 bg-gray-50 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">材料</th>
+                          <th className="px-4 py-2 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">量(g)</th>
+                          <th className="px-4 py-2 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">カロリー</th>
+                          <th className="px-4 py-2 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">タンパク質</th>
+                          <th className="px-4 py-2 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">脂質</th>
+                          <th className="px-4 py-2 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">炭水化物</th>
+                          <th className="px-4 py-2 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">GI値</th>
+                          <th className="px-4 py-2 bg-gray-50 text-right text-xs font-medium text-gray-500 uppercase tracking-wider">原価</th>
+                        </tr>
+                      </thead>
+                      <tbody className="bg-white divide-y divide-gray-200">
+                        {ingredients.map((ing, index) => {
+                          const nutrition = nutritionData[ing.id];
+                          const item = ingredientCategories
+                            .flatMap(cat => cat.items)
+                            .find(i => i.id === ing.id);
+                            
+                          if (!nutrition || !item) return null;
+                          
+                          const calories = Math.round(nutrition.calories * ing.amount / 100);
+                          const protein = Math.round(nutrition.protein * ing.amount / 100 * 10) / 10;
+                          const fat = Math.round(nutrition.fat * ing.amount / 100 * 10) / 10;
+                          const carbs = Math.round(nutrition.carbs * ing.amount / 100 * 10) / 10;
+                          const price = Math.round(item.price * ing.amount);
+                          
+                          return (
+                            <tr key={index} className={index % 2 === 0 ? 'bg-white' : 'bg-gray-50'}>
+                              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-900">{ing.name}</td>
+                              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 text-right">{ing.amount}</td>
+                              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 text-right">{calories}</td>
+                              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 text-right">{protein}</td>
+                              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 text-right">{fat}</td>
+                              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 text-right">{carbs}</td>
+                              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 text-right">{item.gi}</td>
+                              <td className="px-4 py-2 whitespace-nowrap text-sm text-gray-500 text-right">¥{price}</td>
+                            </tr>
+                          );
+                        })}
+                        <tr className="bg-emerald-50">
+                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900">合計</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{nutrition.totalWeight}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{nutrition.calories}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{nutrition.protein}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{nutrition.fat}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{nutrition.carbs}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-right">{nutrition.gi}</td>
+                          <td className="px-4 py-2 whitespace-nowrap text-sm font-medium text-gray-900 text-right">¥{nutrition.price}</td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
               </div>
             )}
           </div>
