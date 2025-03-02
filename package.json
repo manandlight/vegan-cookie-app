@@ -32,4 +32,10 @@
       "last 1 safari version"
     ]
   }
+  "dependencies": {
+  // 既存の依存関係
+  "tailwindcss": "^3.3.0",
+  "postcss": "^8.4.23",
+  "autoprefixer": "^10.4.14"
+}
 }
