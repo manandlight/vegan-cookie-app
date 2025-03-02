@@ -1,5 +1,6 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
+import './index.css';  // この行を追加
 import App from './App';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
